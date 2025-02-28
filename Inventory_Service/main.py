@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from model.product import Product
 from service.productService import deleteProductRecord, getAll, getProductDetails, saveProduct
+import faulthandler
+faulthandler.enable()
 
 
 app = FastAPI()

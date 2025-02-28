@@ -22,6 +22,7 @@ def processPayment(product: Product, message):
         print(f"Product Details : {product}")
         product.quantity = product.quantity - int(message['quantity'])
         product.save()
+        redis.xadd("payment_received", message, "*")
     else:
         # Produce Message for Refund
         redis.xadd("refund_order", message, '*')

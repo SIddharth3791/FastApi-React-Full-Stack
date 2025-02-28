@@ -35,11 +35,10 @@ def order_completed(order: Order):
      order.status = OrderStatus.COMPLETED.name
      order.save()
      checkIfRedisStreamExists()
-     redis.xadd(stream_key, order.model_dump(), '*')
+     redis.xadd(stream_key, order.dict(), '*')
 
 def getOrderByPkId(pk: str):
     try:
-        print(f"----------->{pk}")
         return Order.get(pk)
     except: 
         return f"ERROR When fetching Order Details for PK : {pk}"

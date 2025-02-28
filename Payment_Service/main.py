@@ -3,7 +3,10 @@ from fastapi import BackgroundTasks, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from service.order_service import create_Order, getOrderByPkId
-  
+import faulthandler
+
+faulthandler.enable()
+
 app = FastAPI()
 
 
