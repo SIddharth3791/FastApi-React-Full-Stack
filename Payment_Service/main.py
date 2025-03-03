@@ -12,17 +12,18 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://localhost:3000"],
+  allow_origins=["*"],
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
+    allow_credentials=True,
     )
 
-@app.get("/order/{pk}")
+@app.get("/orders/{pk}")
 def getOrderByPk(pk: str):
     return getOrderByPkId(pk)
 
 
-@app.get("/order")
+@app.post("/orders")
 async def createOrder(request: Request, backgrount_task: BackgroundTasks):
     body = await request.json()
     return await create_Order(body["id"], body["quantity"], backgrount_task)

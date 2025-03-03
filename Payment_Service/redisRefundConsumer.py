@@ -3,11 +3,21 @@ from dotenv import load_dotenv
 import os
 import time
 
+from model.order import Order
+from model.orderStatus import OrderStatus
+
 load_dotenv()
 
 key = os.getenv("REDIS_CONSUMER_REFUND_KEY")
 group = os.getenv("REDIS_CONSUMER_GROUP")
 
+def processRefund(message):
+    if message:
+        refundRecord  = message[0][1][0]
+        order = Order.get(refundRecord["pk"])
+        order['status'] = OrderStatus.REFUND.name
+        order.save()
+        
 
 try:
     redis.xgroup_create(key, group)
